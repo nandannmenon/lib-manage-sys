@@ -62,14 +62,14 @@ Entities included:
 - Fines
 
 ---
-## 🔑 Login Credentials
+## Login Credentials
 
-### 👨‍🎓 **Student Login**
+### **Student Login**
 - **Username**: First name (from `data/member.csv`)
 - **Password**: Member_ID
 - Example: Username: nandan, Password: 521
 
-### 🛡️ **Admin Login**
+### **Admin Login**
 - **Username**: `admin`
 - **Password**: `admin123`
 
