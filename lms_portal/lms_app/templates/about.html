@@ -1,0 +1,334 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main-content %}
+<style>
+    .about-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+
+    .about-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .about-title::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        border-radius: 2px;
+    }
+
+    .about-subtitle {
+        font-size: 1.1rem;
+        color: var(--light-text);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .feature-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+    }
+
+    .feature-description {
+        color: var(--light-text);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .about-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 1.25rem;
+        position: relative;
+        padding-left: 1.25rem;
+    }
+
+    .section-title::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        border-radius: 2px;
+    }
+
+    .section-content {
+        color: var(--light-text);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.25rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+    }
+
+    .info-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .info-list li {
+        margin-bottom: 0.5rem;
+        color: var(--light-text);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .info-list li i {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+        margin-top: 0.25rem;
+    }
+
+    .contact-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 1.5rem;
+    }
+
+    .contact-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+    }
+
+    .contact-info {
+        color: var(--light-text);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-info i {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+    }
+
+    @media (max-width: 992px) {
+        .about-grid, .info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .about-grid, .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .about-section {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="about-container">
+        <div class="about-header">
+            <h1 class="about-title">Shiv Nadar University Central Library</h1>
+            <p class="about-subtitle">The soul of the institution, empowering knowledge through comprehensive resources and services</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3 class="feature-title">Extensive Collection</h3>
+                <p class="feature-description">40,000+ documents including reference books, textbooks, and periodicals, with access to 2000+ online and print periodicals.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="feature-title">24/7 Access</h3>
+                <p class="feature-description">Open from 9:00 AM to 12:00 AM with a dedicated 24/7 study room for students.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <h3 class="feature-title">Digital Resources</h3>
+                <p class="feature-description">Access to online databases, e-books, and digital archives through our comprehensive digital library program.</p>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Vision & Mission</h2>
+            <p class="section-content">
+                SNU Library serves as an excellent, modern knowledge resource centre, disseminating the latest information for teaching, learning, and research. We maintain effective national and international resource-sharing networks while implementing best management practices and encouraging lifelong learning.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Library Services</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Core Services</h3>
+                    <ul class="info-list">
+                        <li><i class="fas fa-check"></i>Printing, scanning, and photocopying services</li>
+                        <li><i class="fas fa-check"></i>Online database access through LAN</li>
+                        <li><i class="fas fa-check"></i>Network resource sharing through DELNET</li>
+                        <li><i class="fas fa-check"></i>Interlibrary loan services</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Collections</h3>
+                    <ul class="info-list">
+                        <li><i class="fas fa-book"></i>Reference Collection</li>
+                        <li><i class="fas fa-book"></i>Textbooks Collection</li>
+                        <li><i class="fas fa-book"></i>Light Reading Collection</li>
+                        <li><i class="fas fa-newspaper"></i>14 Newspapers (English & Hindi)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Library Rules & Privileges</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Loan Privileges</h3>
+                    <ul class="info-list">
+                        <li><i class="fas fa-user-tie"></i>Faculty: 10 Books (6 Months)</li>
+                        <li><i class="fas fa-user-graduate"></i>Post Graduates: 10 Books (4 Weeks)</li>
+                        <li><i class="fas fa-user"></i>Under Graduates: 5 Books (2 Weeks)</li>
+                        <li><i class="fas fa-users"></i>Staff: 5 Books (6 Months)</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Important Rules</h3>
+                    <ul class="info-list">
+                        <li><i class="fas fa-volume-mute"></i>Maintain silence in library premises</li>
+                        <li><i class="fas fa-bag"></i>Submit bags at baggage counter</li>
+                        <li><i class="fas fa-book"></i>Do not reshelf books - leave on reading tables</li>
+                        <li><i class="fas fa-exclamation-triangle"></i>Report damaged books before borrowing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h3>Contact Information</h3>
+            <div class="contact-info">
+                <i class="fas fa-user"></i> Dr. TRB SARMA, Librarian
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-map-marker-alt"></i> Shiv Nadar University, Dadri-203207, Uttar Pradesh, INDIA
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-phone"></i> Phone: 0120-3819100
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-envelope"></i> Email: librarian@snu.edu.in, libraryhelpdesk@snu.edu.in
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-globe"></i> Website: <a href="http://library.snu.edu.in/" target="_blank">library.snu.edu.in</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

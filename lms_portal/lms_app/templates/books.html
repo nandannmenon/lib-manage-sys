@@ -1,0 +1,1061 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main-content %}
+<!-- Messages section -->
+<div class="messages-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<style>
+    .books-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem 0;
+    }
+    .search-section {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .search-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+    .search-input {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    .search-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        background: white;
+        outline: none;
+    }
+    .category-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        transition: width 0.3s ease;
+    }
+    .category-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .category-card:hover::before {
+        width: 6px;
+    }
+    .category-card.active {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    .category-card.active .category-title,
+    .category-card.active .category-description {
+        color: white;
+    }
+    .category-title {
+        color: var(--primary-color);
+        margin-bottom: 0.25rem;
+        font-size: 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+    .category-title i {
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+    .category-description {
+        color: var(--light-text);
+        margin-bottom: 0;
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    .book-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .book-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+    .book-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    .book-title {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+    .book-author {
+        color: var(--light-text);
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    .book-info {
+        color: var(--light-text);
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .book-info i {
+        margin-right: 0.5rem;
+        width: 16px;
+        text-align: center;
+    }
+    .rating-display {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
+    }
+    .rating-display i {
+        color: #fff;
+        margin-right: 0.25rem;
+    }
+    .availability {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .availability.available {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+    .availability.unavailable {
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+    }
+    .btn-borrow {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    .btn-borrow:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+    .section-title {
+        color: var(--primary-color);
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        border-radius: 2px;
+    }
+    .no-books {
+        text-align: center;
+        padding: 1rem;
+        color: #6c757d;
+    }
+    .books-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -0.75rem;
+    }
+    .book-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    .categories-section {
+        position: sticky;
+        top: 1rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+    .categories-section::-webkit-scrollbar {
+        width: 4px;
+    }
+    .categories-section::-webkit-scrollbar-thumb {
+        background-color: #003366;
+        border-radius: 2px;
+    }
+
+    /* Checkout Modal Styles */
+    .checkout-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .checkout-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 2rem;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .close-modal {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--light-text);
+    }
+
+    .checkout-form {
+        margin-top: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--light-text);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .checkout-btn {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        width: 100%;
+        margin-top: 1rem;
+        cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+    .btn-info:hover {
+        background: #138496;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .info-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    .info-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 2rem;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+        position: relative;
+    }
+    .close-info {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--light-text);
+    }
+    .borrowing-history {
+        margin-top: 1.5rem;
+    }
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+    .history-table th,
+    .history-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .history-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+    .no-history {
+        text-align: center;
+        padding: 1rem;
+        color: #6c757d;
+    }
+    .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .close-alert {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: inherit;
+        padding: 0;
+        margin-left: 1rem;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* My Account Button and Modal Styles */
+    .my-account-btn {
+        display: none;
+    }
+
+    /* Add styles for the account modal */
+    .account-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+    }
+
+    .account-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 2.5rem;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .close-account {
+        position: absolute;
+        right: 1.5rem;
+        top: 1.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--light-text);
+        transition: all 0.3s ease;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f8f9fa;
+    }
+
+    .close-account:hover {
+        color: var(--primary-color);
+        background: #e9ecef;
+        transform: rotate(90deg);
+    }
+
+    .account-info {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .account-info::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+        border-radius: 50%;
+        transform: translate(30%, -30%);
+    }
+
+    .account-info h3 {
+        color: white;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        border: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .account-info p {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .account-info p:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .account-info strong {
+        min-width: 150px;
+        font-weight: 500;
+        opacity: 0.9;
+    }
+
+    .account-info i {
+        margin-right: 0.75rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        padding: 0.5rem;
+    }
+
+    .account-section {
+        background: white;
+        border-radius: 12px;
+        padding: 1.75rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+    }
+
+    .account-section:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .account-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .account-section h3 i {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+    }
+
+    .account-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 1rem;
+    }
+
+    .account-table th,
+    .account-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .account-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: var(--primary-color);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    .account-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .account-table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .account-table tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: scale(1.01);
+    }
+
+    .pending-charge {
+        color: #dc3545;
+        font-weight: 500;
+        padding: 0.25rem 0.75rem;
+        background: rgba(220, 53, 69, 0.1);
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .paid-charge {
+        color: #28a745;
+        font-weight: 500;
+        padding: 0.25rem 0.75rem;
+        background: rgba(40, 167, 69, 0.1);
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    /* Star Rating Styles */
+    .star-rating {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 0.5rem;
+    }
+    .star-rating i {
+        color: #ffd700;
+        font-size: 1rem;
+        margin-right: 2px;
+    }
+    .star-rating .rating-value {
+        color: var(--light-text);
+        font-size: 0.85rem;
+        margin-left: 0.5rem;
+    }
+</style>
+
+<div class="container">
+    <div class="books-container">
+        <div class="search-section">
+            <input type="text" class="search-input" placeholder="Search for books...">
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="categories-section">
+                    <h3 class="section-title">Categories</h3>
+                    <div class="category-card" data-genre="all">
+                        <h4 class="category-title">
+                            <i class="fas fa-book"></i>
+                            All Books
+                        </h4>
+                        <p class="category-description">Show all available books</p>
+                    </div>
+                    {% for genre in genres %}
+                    <div class="category-card" data-genre="{{ genre.Genre_ID }}">
+                        <h4 class="category-title">
+                            <i class="fas fa-tag"></i>
+                            {{ genre.Genre_Name }}
+                        </h4>
+                        <p class="category-description">Books related to {{ genre.Genre_Name }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-9">
+                <h3 class="section-title">Available Books</h3>
+                <div id="books-container">
+                    <div class="books-row">
+                        {% for book in books %}
+                        <div class="book-col">
+                            <div class="book-card" data-genre="{{ book.Genre_ID }}">
+                                <h4 class="book-title">{{ book.Title }}</h4>
+                                <p class="book-author">By {{ book.Author.Name }}</p>
+                                <p class="book-info">
+                                    <i class="fas fa-copy"></i>
+                                    <span class="availability {% if book.Available_Copies > 0 %}available{% else %}unavailable{% endif %}">
+                                        {{ book.Available_Copies }} copies available
+                                    </span>
+                                </p>
+                                <p class="book-info">
+                                    <i class="fas fa-calendar"></i>
+                                    Published: {{ book.Year_of_Publication }}
+                                </p>
+                                <p class="book-info">
+                                    <i class="fas fa-tag"></i>
+                                    Genre: {{ book.Genre.Genre_Name }}
+                                </p>
+                                <p class="book-info">
+                                    <i class="fas fa-building"></i>
+                                    Publisher: {{ book.Publisher }}
+                                </p>
+                                <p class="book-info">
+                                    <div class="rating-display">
+                                        <i class="fas fa-star"></i>
+                                        {{ book.Rating }}/5.0
+                                    </div>
+                                </p>
+                                <div class="book-actions">
+                                    <button class="btn-borrow" onclick="showCheckoutModal('{{ book.Book_ID }}', '{{ book.Title }}')">
+                                        <i class="fas fa-book-reader me-2"></i>
+                                        Borrow
+                                    </button>
+                                    <button class="btn-info" onclick="showBookInfoModal('{{ book.Book_ID }}', '{{ book.Title }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                        Info
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-content">
+        <span class="close-modal" onclick="closeCheckoutModal()">&times;</span>
+        <h3>Checkout Book</h3>
+        <div class="checkout-form">
+            <form id="checkoutForm" method="POST" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <input type="hidden" id="bookId" name="book_id">
+                <input type="hidden" name="member_id" value="{{ request.session.member_id }}">
+                <div class="form-group">
+                    <label class="form-label">Book Title</label>
+                    <input type="text" id="bookTitle" class="form-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Issue Date</label>
+                    <input type="date" name="issue_date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Due Date</label>
+                    <input type="date" name="due_date" class="form-input" required>
+                </div>
+                <button type="submit" class="checkout-btn">Confirm Checkout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- My Account Modal -->
+<div id="accountModal" class="account-modal">
+    <div class="account-content">
+        <span class="close-account" onclick="closeAccountModal()">&times;</span>
+        <h2 style="margin-bottom: 2rem; color: var(--primary-color); font-weight: 600;">My Account</h2>
+        
+        <div class="account-info">
+            <h3><i class="fas fa-user-circle"></i> Account Information</h3>
+            <p><i class="fas fa-user"></i><strong>Name:</strong> {{ request.session.member_name }}</p>
+            <p><i class="fas fa-id-card"></i><strong>Member ID:</strong> {{ request.session.member_id }}</p>
+        </div>
+
+        <div class="account-section">
+            <h3><i class="fas fa-book-reader"></i> Current Borrowings</h3>
+            <table class="account-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody id="currentBorrowings">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="account-section">
+            <h3><i class="fas fa-history"></i> Borrowing History</h3>
+            <table class="account-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <tbody id="borrowingHistory">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="account-section">
+            <h3><i class="fas fa-money-bill-wave"></i> Pending Charges</h3>
+            <table class="account-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="pendingCharges">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Book Info Modal -->
+<div id="bookInfoModal" class="info-modal">
+    <div class="info-content">
+        <span class="close-info" onclick="closeBookInfoModal()">&times;</span>
+        <h3 id="bookInfoTitle"></h3>
+        <div class="borrowing-history">
+            <h4>Borrowing History</h4>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Member Name</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <tbody id="bookHistoryTable">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryCards = document.querySelectorAll('.category-card');
+    const bookCards = document.querySelectorAll('.book-card');
+    const searchInput = document.querySelector('.search-input');
+    let activeGenre = 'all';
+
+    // Function to filter books based on genre and search term
+    function filterBooks() {
+        const searchTerm = searchInput.value.toLowerCase();
+        let hasVisibleBooks = false;
+
+        bookCards.forEach(card => {
+            const bookTitle = card.querySelector('.book-title').textContent.toLowerCase();
+            const bookAuthor = card.querySelector('.book-author').textContent.toLowerCase();
+            const bookGenre = card.getAttribute('data-genre');
+            const matchesSearch = bookTitle.includes(searchTerm) || bookAuthor.includes(searchTerm);
+            const matchesGenre = activeGenre === 'all' || bookGenre === activeGenre;
+
+            if (matchesSearch && matchesGenre) {
+                card.parentElement.style.display = 'block';
+                hasVisibleBooks = true;
+            } else {
+                card.parentElement.style.display = 'none';
+            }
+        });
+
+        // Show/hide no books message
+        const booksContainer = document.getElementById('books-container');
+        if (!hasVisibleBooks) {
+            if (!document.querySelector('.no-books')) {
+                const noBooksMessage = document.createElement('div');
+                noBooksMessage.className = 'no-books';
+                noBooksMessage.textContent = 'No books found matching your criteria.';
+                booksContainer.appendChild(noBooksMessage);
+            }
+        } else {
+            const noBooksMessage = document.querySelector('.no-books');
+            if (noBooksMessage) {
+                noBooksMessage.remove();
+            }
+        }
+    }
+
+    // Add click event listeners to category cards
+    categoryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove active class from all cards
+            categoryCards.forEach(c => c.classList.remove('active'));
+            // Add active class to clicked card
+            this.classList.add('active');
+            // Update active genre
+            activeGenre = this.getAttribute('data-genre');
+            // Filter books
+            filterBooks();
+        });
+    });
+
+    // Add input event listener to search input
+    searchInput.addEventListener('input', filterBooks);
+
+    // Set initial active state for "All Books" category
+    document.querySelector('.category-card[data-genre="all"]').classList.add('active');
+});
+
+function showCheckoutModal(bookId, bookTitle) {
+    const modal = document.getElementById('checkoutModal');
+    const bookIdInput = document.getElementById('bookId');
+    const bookTitleInput = document.getElementById('bookTitle');
+    
+    bookIdInput.value = bookId;
+    bookTitleInput.value = bookTitle;
+    
+    // Set default dates
+    const today = new Date();
+    const dueDate = new Date();
+    dueDate.setDate(today.getDate() + 14); // 14 days from today
+    
+    document.querySelector('input[name="issue_date"]').value = today.toISOString().split('T')[0];
+    document.querySelector('input[name="due_date"]').value = dueDate.toISOString().split('T')[0];
+    
+    modal.style.display = 'block';
+}
+
+function closeCheckoutModal() {
+    document.getElementById('checkoutModal').style.display = 'none';
+}
+
+function showAccountModal() {
+    const modal = document.getElementById('accountModal');
+    modal.style.display = 'block';
+    
+    // Fetch and display account information
+    fetchAccountInfo();
+}
+
+function closeAccountModal() {
+    document.getElementById('accountModal').style.display = 'none';
+}
+
+function fetchAccountInfo() {
+    const memberId = '{{ request.session.member_id }}';
+    
+    // Fetch current borrowings
+    fetch(`/api/current-borrowings/${memberId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('currentBorrowings');
+            tbody.innerHTML = data.map(book => `
+                <tr>
+                    <td>${book.title}</td>
+                    <td>${book.issue_date}</td>
+                    <td>${book.due_date}</td>
+                </tr>
+            `).join('');
+        });
+
+    // Fetch borrowing history
+    fetch(`/api/borrowing-history/${memberId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('borrowingHistory');
+            tbody.innerHTML = data.map(book => `
+                <tr>
+                    <td>${book.title}</td>
+                    <td>${book.issue_date}</td>
+                    <td>${book.due_date}</td>
+                    <td>${book.return_date || 'Not Returned'}</td>
+                </tr>
+            `).join('');
+        });
+
+    // Fetch pending charges
+    fetch(`/api/pending-charges/${memberId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('pendingCharges');
+            tbody.innerHTML = data.map(charge => `
+                <tr>
+                    <td>${charge.book_title}</td>
+                    <td>${charge.due_date}</td>
+                    <td>${charge.return_date || 'Not Returned'}</td>
+                    <td>$${charge.amount}</td>
+                    <td class="${charge.status === 'Pending' ? 'pending-charge' : 'paid-charge'}">
+                        ${charge.status}
+                    </td>
+                </tr>
+            `).join('');
+        });
+}
+
+function showBookInfoModal(bookId, bookTitle) {
+    const modal = document.getElementById('bookInfoModal');
+    const titleElement = document.getElementById('bookInfoTitle');
+    titleElement.textContent = bookTitle;
+    
+    // Fetch borrowing history for this book
+    fetch(`/api/book-history/${bookId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('bookHistoryTable');
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="no-history">No borrowing history available</td></tr>';
+            } else {
+                tbody.innerHTML = data.map(record => `
+                    <tr>
+                        <td>${record.member_name}</td>
+                        <td>${record.issue_date}</td>
+                        <td>${record.due_date}</td>
+                        <td>${record.return_date || 'Not Returned'}</td>
+                    </tr>
+                `).join('');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching book history:', error);
+            const tbody = document.getElementById('bookHistoryTable');
+            tbody.innerHTML = '<tr><td colspan="4" class="no-history">Error loading borrowing history</td></tr>';
+        });
+    
+    modal.style.display = 'block';
+}
+
+function closeBookInfoModal() {
+    document.getElementById('bookInfoModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const accountModal = document.getElementById('accountModal');
+    if (event.target == accountModal) {
+        accountModal.style.display = 'none';
+    }
+}
+</script>
+{% endblock %} 

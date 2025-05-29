@@ -1,0 +1,81 @@
+Book_ID,Title,Year_of_Publication,Total_Copies,Available_Copies,Author_ID,Genre_ID,Publisher,Rating
+1001,Artificial Intelligence: A Modern Approach,2008,17,6,111,301,Pearson,4.5
+1002,Deep Learning,2018,24,4,105,303,O'Reilly Media,4.8
+1003,Machine Learning Yearning,2023,7,3,111,302,Addison-Wesley,4.2
+1004,The Elements of Statistical Learning,2002,27,1,112,302,McGraw-Hill,4.7
+1005,Pattern Recognition and Machine Learning,2024,14,8,111,302,Springer,4.6
+1006,Data Science from Scratch,2012,25,7,107,304,Wiley,4.0
+1007,Python Machine Learning,2004,20,7,104,302,MIT Press,3.8
+1008,Reinforcement Learning: An Introduction,2011,7,6,113,302,Apress,4.4
+1009,Computer Vision: Algorithms and Applications,2018,7,7,105,306,CRC Press,4.3
+1010,Natural Language Processing with Python,2016,5,7,103,307,Cambridge University Press,4.1
+1011,Hands-On Machine Learning with Scikit-Learn,2005,7,2,115,302,Packt Publishing,4.2
+1012,Data Structures and Algorithms in Python,2017,20,3,110,309,No Starch Press,4.5
+1013,Computer Networking: A Top-Down Approach,2016,12,4,117,314,Manning Publications,4.6
+1014,Introduction to the Theory of Computation,2015,23,8,119,309,SAMS Publishing,4.3
+1015,Operating System Concepts,2013,23,2,106,311,Johns Hopkins University Press,4.4
+1016,Database System Concepts,2001,19,4,115,313,Elsevier,4.5
+1017,The Pragmatic Programmer,2012,29,6,106,308,Harvard University Press,4.8
+1018,Clean Code: A Handbook of Agile Software Craftsmanship,2022,7,10,114,308,Dover Publications,4.7
+1019,Computer Architecture: A Quantitative Approach,2000,19,10,117,308,IEEE Press,4.4
+1020,Code: The Hidden Language of Computer Hardware and Software,2008,20,7,106,308,Oxford University Press,4.2
+1021,C++ Primer,2017,28,1,107,309,Pearson,4.5
+1022,Java: The Complete Reference,2017,15,1,118,316,O'Reilly Media,4.3
+1023,Cracking the Coding Interview,2017,23,4,105,309,Addison-Wesley,4.6
+1024,Design Patterns: Elements of Reusable Object-Oriented Software,2006,5,2,118,308,McGraw-Hill,4.7
+1025,Refactoring: Improving the Design of Existing Code,2022,16,4,108,308,Springer,4.4
+1026,Algorithms Unlocked,2018,13,3,101,309,Wiley,4.1
+1027,The Algorithm Design Manual,2003,14,7,115,309,MIT Press,4.5
+1028,Introduction to Algorithms,2011,29,2,111,309,Apress,4.8
+1029,Structure and Interpretation of Computer Programs,2012,27,3,111,309,CRC Press,4.6
+1030,"Compilers: Principles, Techniques, and Tools",2023,18,1,110,309,Cambridge University Press,4.4
+1031,Computer Graphics: Principles and Practice,2010,17,10,115,301,Packt Publishing,4.3
+1032,The Art of Computer Programming,2000,19,9,111,309,No Starch Press,4.9
+1033,Programming Pearls,2009,17,8,103,309,Manning Publications,4.5
+1034,UNIX Network Programming,2002,18,6,111,314,SAMS Publishing,4.4
+1035,The C Programming Language,2004,10,6,114,309,Johns Hopkins University Press,4.7
+1036,Think Python,2007,10,6,101,316,Elsevier,4.2
+1037,Grokking Algorithms,2018,27,2,118,309,Harvard University Press,4.3
+1038,Software Engineering at Google,2002,16,3,113,308,Dover Publications,4.1
+1039,Python Crash Course,2000,16,7,103,316,IEEE Press,4.4
+1040,Fluent Python,2021,20,3,113,316,Oxford University Press,4.6
+1041,Modern Operating Systems,2006,9,3,102,311,Pearson,4.5
+1042,CS50's Introduction to Computer Science,2002,26,9,109,309,O'Reilly Media,4.3
+1043,Linux Kernel Development,2021,17,6,106,311,Addison-Wesley,4.4
+1044,Database Internals,2001,11,3,110,313,McGraw-Hill,4.2
+1045,Programming Rust,2016,15,1,119,309,Springer,4.5
+1046,Effective Java,2009,25,3,108,309,Wiley,4.7
+1047,Code Complete,2007,21,2,105,308,MIT Press,4.8
+1048,Automate the Boring Stuff with Python,2005,29,6,106,316,Apress,4.3
+1049,Machine Learning for Hackers,2002,30,3,112,302,CRC Press,4.0
+1050,Principles of Neural Science,2004,27,5,118,301,Cambridge University Press,4.6
+1051,Security Engineering,2008,13,9,103,310,Packt Publishing,4.4
+1052,Computer Security: Principles and Practice,2024,16,3,111,310,No Starch Press,4.5
+1053,Applied Cryptography,2016,17,8,105,310,Manning Publications,4.7
+1054,Introduction to Computer Security,2010,19,2,109,310,SAMS Publishing,4.2
+1055,Blockchain Basics,2011,22,4,106,315,Johns Hopkins University Press,4.1
+1056,Computer Organization and Design,2007,19,2,112,314,Elsevier,4.4
+1057,Embedded Systems: Introduction to ARM Cortex-M Microcontrollers,2009,20,10,102,317,Harvard University Press,4.3
+1058,Software Architecture in Practice,2011,5,9,113,308,Dover Publications,4.5
+1059,Fundamentals of Software Architecture,2002,5,8,104,308,IEEE Press,4.2
+1060,The Phoenix Project,2015,10,8,115,308,Oxford University Press,4.4
+1061,The Mythical Man-Month,2003,30,1,120,308,Pearson,4.7
+1062,Deep Reinforcement Learning Hands-On,2003,11,4,109,302,O'Reilly Media,4.3
+1063,Computer Science Distilled,2002,9,10,109,309,Addison-Wesley,4.1
+1064,You Don't Know JS,2005,22,6,118,316,McGraw-Hill,4.5
+1065,Programming in Haskell,2022,15,3,104,309,Springer,4.2
+1066,The Rust Programming Language,2004,26,8,114,309,Wiley,4.6
+1067,Crafting Interpreters,2012,23,1,119,309,MIT Press,4.4
+1068,Operating Systems: Three Easy Pieces,2014,22,1,102,311,Apress,4.7
+1069,Effective C,2022,7,9,113,309,CRC Press,4.3
+1070,Building Microservices,2004,7,3,109,308,Cambridge University Press,4.5
+1071,Microservices Patterns,2000,19,8,109,308,Packt Publishing,4.4
+1072,Web Scalability for Startup Engineers,2018,12,9,116,316,No Starch Press,4.2
+1073,Clean Architecture,2019,14,3,105,308,Manning Publications,4.6
+1074,Continuous Delivery,2004,23,5,116,308,SAMS Publishing,4.3
+1075,DevOps Handbook,2020,9,2,110,308,Johns Hopkins University Press,4.5
+1076,Kubernetes Up & Running,2010,20,9,111,312,Elsevier,4.4
+1077,Docker Deep Dive,2015,8,6,104,312,Harvard University Press,4.3
+1078,Terraform: Up & Running,2010,14,3,117,312,Dover Publications,4.2
+1079,The Site Reliability Workbook,2016,13,6,107,308,IEEE Press,4.4
+1080,SRE: The Site Reliability Engineering Book,2003,23,6,107,308,Oxford University Press,4.5

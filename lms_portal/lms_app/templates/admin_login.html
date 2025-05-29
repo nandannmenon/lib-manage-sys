@@ -1,0 +1,139 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main-content %}
+<style>
+    .admin-login-container {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .admin-login-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .admin-login-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .admin-login-subtitle {
+        color: var(--light-text);
+        font-size: 0.95rem;
+    }
+
+    .admin-form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .admin-form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+
+    .admin-form-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .admin-form-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+    .admin-login-btn {
+        width: 100%;
+        padding: 0.8rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .admin-login-btn:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .admin-login-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .admin-login-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .admin-login-link:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+</style>
+
+<div class="admin-login-container">
+    <div class="admin-login-card">
+        <div class="admin-login-header">
+            <h1 class="admin-login-title">Admin Login</h1>
+            <p class="admin-login-subtitle">Access the library management system</p>
+        </div>
+
+        <form method="POST" action="{% url 'admin_login' %}">
+            {% csrf_token %}
+            <div class="admin-form-group">
+                <label class="admin-form-label" for="username">Username</label>
+                <input type="text" id="username" name="username" class="admin-form-input" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label class="admin-form-label" for="password">Password</label>
+                <input type="password" id="password" name="password" class="admin-form-input" required>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <button type="submit" class="admin-login-btn">Login</button>
+        </form>
+
+        <div class="admin-login-footer">
+            <a href="/home" class="admin-login-link">← Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

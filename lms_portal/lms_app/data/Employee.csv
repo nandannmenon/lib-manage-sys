@@ -1,0 +1,11 @@
+Employee_ID,Name,Email,Username,Password,Phone_No
+401,Amit Sharma,amit.sharma@email.com,admin,admin123,9876543210
+402,Priya Verma,priya.verma@email.com,priya_verma,Emp@23456,9876543211
+403,Rahul Nair,rahul.nair@email.com,rahul_nair,Emp@34567,9876543212
+404,Neha Gupta,neha.gupta@email.com,neha_gupta,Emp@45678,9876543213
+405,Arjun Mehta,arjun.mehta@email.com,arjun_mehta,Emp@56789,9876543214
+406,Simran Kaur,simran.kaur@email.com,simran_kaur,Emp@67890,9876543215
+407,Vikram Iyer,vikram.iyer@email.com,vikram_iyer,Emp@78901,9876543216
+408,Sneha Reddy,sneha.reddy@email.com,sneha_reddy,Emp@89012,9876543217
+409,Rohan Das,rohan.das@email.com,rohan_das,Emp@90123,9876543218
+410,Ananya Sen,ananya.sen@email.com,ananya_sen,Emp@01234,9876543219

@@ -1,0 +1,464 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main-content %}
+<style>
+    .welcome-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+    .welcome-card {
+        background: #e9ecef;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .welcome-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(0, 51, 102, 0.05) 0%, rgba(0, 80, 158, 0.05) 100%);
+        clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+    .welcome-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    .welcome-header img {
+        height: 120px;
+        margin-bottom: 1.5rem;
+        width: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .welcome-header img:hover {
+        transform: scale(1.05);
+    }
+
+    .welcome-title {
+        color: #003366;
+        margin-bottom: 0.5rem;
+        font-size: 2.2rem;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+    }
+
+    .welcome-title::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        border-radius: 2px;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-title {
+        color: #003366;
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+
+    .feature-title i {
+        margin-right: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .feature-text {
+        color: #6c757d;
+        margin-bottom: 0;
+        line-height: 1.5;
+        font-size: 0.95rem;
+    }
+
+    .btn-explore {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-explore:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        color: white;
+    }
+
+    /* Account Modal Styles */
+    .account-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+    }
+
+    .account-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-account {
+        position: absolute;
+        right: 1.5rem;
+        top: 1.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--light-text);
+        transition: color 0.3s ease;
+    }
+
+    .close-account:hover {
+        color: var(--primary-color);
+    }
+
+    .account-info {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .account-info h3 {
+        color: white;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        border: none;
+        padding: 0;
+    }
+
+    .account-info p {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+    }
+
+    .account-info p:last-child {
+        margin-bottom: 0;
+    }
+
+    .account-info strong {
+        min-width: 150px;
+        font-weight: 500;
+    }
+
+    .account-info i {
+        margin-right: 0.5rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .account-section {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .account-section:hover {
+        transform: translateY(-2px);
+    }
+
+    .account-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--primary-color);
+        display: flex;
+        align-items: center;
+    }
+
+    .account-section h3 i {
+        margin-right: 0.5rem;
+    }
+
+    .account-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 1rem;
+    }
+
+    .account-table th,
+    .account-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .account-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .account-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .account-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .pending-charge {
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .paid-charge {
+        color: #28a745;
+        font-weight: 500;
+    }
+</style>
+
+<div class="container">
+    <div class="welcome-container">
+        <div class="welcome-card">
+            <div class="welcome-header">
+                <img src="{% static 'logo_main.png' %}" alt="SNU Library" style="max-width: 100%;">
+                <h2 class="welcome-title">Welcome {{ member_name }}!</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <h3 class="feature-title">
+                            <i class="fas fa-book-open"></i>
+                            Explore Books
+                        </h3>
+                        <p class="feature-text">
+                            Browse through our extensive collection of books, e-books, and academic resources.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <h3 class="feature-title">
+                            <i class="fas fa-search"></i>
+                            Search Resources
+                        </h3>
+                        <p class="feature-text">
+                            Use our advanced search to find exactly what you're looking for.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'books' %}" class="btn-explore">
+                    Start Exploring <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- My Account Modal -->
+<div id="accountModal" class="account-modal">
+    <div class="account-content">
+        <span class="close-account" onclick="closeAccountModal()">&times;</span>
+        <h2>My Account</h2>
+        
+        <div class="account-info">
+            <h3><i class="fas fa-user-circle"></i> Account Information</h3>
+            <p><i class="fas fa-user"></i><strong>Name:</strong> {{ member_name }}</p>
+            <p><i class="fas fa-id-card"></i><strong>Member ID:</strong> {{ member_id }}</p>
+            {% if membership %}
+                <p><i class="fas fa-crown"></i><strong>Membership Type:</strong> {{ membership.Membership_Type }}</p>
+                <p><i class="fas fa-calendar-check"></i><strong>Valid Until:</strong> {{ membership.End_Date }}</p>
+            {% else %}
+                <p><i class="fas fa-crown"></i><strong>Membership Type:</strong> Not Available</p>
+            {% endif %}
+        </div>
+
+        <div class="account-section">
+            <h3><i class="fas fa-book-reader"></i> Current Borrowings</h3>
+            <table class="account-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody id="currentBorrowings">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="account-section">
+            <h3><i class="fas fa-history"></i> Borrowing History</h3>
+            <table class="account-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <tbody id="borrowingHistory">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="account-section">
+            <h3><i class="fas fa-money-bill-wave"></i> Pending Charges</h3>
+            <table class="account-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="pendingCharges">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function showAccountModal() {
+    const modal = document.getElementById('accountModal');
+    modal.style.display = 'block';
+    
+    // Fetch and display account information
+    fetchAccountInfo();
+}
+
+function closeAccountModal() {
+    document.getElementById('accountModal').style.display = 'none';
+}
+
+function fetchAccountInfo() {
+    const memberId = '{{ request.session.member_id }}';
+    
+    // Fetch current borrowings
+    fetch(`/api/current-borrowings/${memberId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('currentBorrowings');
+            tbody.innerHTML = data.map(book => `
+                <tr>
+                    <td>${book.title}</td>
+                    <td>${book.issue_date}</td>
+                    <td>${book.due_date}</td>
+                </tr>
+            `).join('');
+        });
+
+    // Fetch borrowing history
+    fetch(`/api/borrowing-history/${memberId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('borrowingHistory');
+            tbody.innerHTML = data.map(book => `
+                <tr>
+                    <td>${book.title}</td>
+                    <td>${book.issue_date}</td>
+                    <td>${book.due_date}</td>
+                    <td>${book.return_date || 'Not Returned'}</td>
+                </tr>
+            `).join('');
+        });
+
+    // Fetch pending charges
+    fetch(`/api/pending-charges/${memberId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('pendingCharges');
+            tbody.innerHTML = data.map(charge => `
+                <tr>
+                    <td>${charge.book_title}</td>
+                    <td>${charge.due_date}</td>
+                    <td>${charge.return_date || 'Not Returned'}</td>
+                    <td>$${charge.amount}</td>
+                    <td>${charge.status}</td>
+                </tr>
+            `).join('');
+        });
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const accountModal = document.getElementById('accountModal');
+    if (event.target == accountModal) {
+        accountModal.style.display = 'none';
+    }
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,248 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block main-content %}
+<style>
+    .admin-dashboard {
+        padding: 2rem 0;
+    }
+
+    .admin-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .admin-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .admin-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin: 0;
+    }
+
+    .admin-btn {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        border: none;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .admin-btn:hover {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: var(--light-text);
+        font-size: 0.9rem;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .admin-table th {
+        background-color: var(--accent-color);
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .admin-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--accent-color);
+    }
+
+    .action-btn {
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+    }
+
+    .edit-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+
+    .search-bar {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-bar:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+</style>
+
+<div class="admin-dashboard">
+    <div class="container">
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1,234</div>
+                <div class="stat-label">Total Books</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">567</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89</div>
+                <div class="stat-label">Books Checked Out</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45</div>
+                <div class="stat-label">Pending Requests</div>
+            </div>
+        </div>
+
+        <!-- Books Management -->
+        <div class="admin-card">
+            <div class="admin-header">
+                <h2 class="admin-title">Books Management</h2>
+                <button class="admin-btn">Add New Book</button>
+            </div>
+            <input type="text" class="search-bar" placeholder="Search books...">
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Introduction to Python</td>
+                            <td>John Doe</td>
+                            <td>Programming</td>
+                            <td>Available</td>
+                            <td>
+                                <button class="action-btn edit-btn">Edit</button>
+                                <button class="action-btn delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Data Structures</td>
+                            <td>Jane Smith</td>
+                            <td>Computer Science</td>
+                            <td>Checked Out</td>
+                            <td>
+                                <button class="action-btn edit-btn">Edit</button>
+                                <button class="action-btn delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div class="admin-card">
+            <div class="admin-header">
+                <h2 class="admin-title">User Management</h2>
+                <button class="admin-btn">Add New User</button>
+            </div>
+            <input type="text" class="search-bar" placeholder="Search users...">
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice Johnson</td>
+                            <td>alice@example.com</td>
+                            <td>Student</td>
+                            <td>Active</td>
+                            <td>
+                                <button class="action-btn edit-btn">Edit</button>
+                                <button class="action-btn delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bob Wilson</td>
+                            <td>bob@example.com</td>
+                            <td>Faculty</td>
+                            <td>Active</td>
+                            <td>
+                                <button class="action-btn edit-btn">Edit</button>
+                                <button class="action-btn delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
