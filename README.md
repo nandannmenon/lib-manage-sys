@@ -148,4 +148,4 @@ The system exposes API endpoints for:
 
 ---
 
-**Note:** This is an academic project intended for learning purposes and small-scale deployment.
+**Note:** This is an academic project intended for learning purposes and small-scale deployment only.
