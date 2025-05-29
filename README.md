@@ -115,12 +115,25 @@ python manage.py runserver
 
 ```
 lms_final/
-├── lms_portal/        # Project config and settings
-│   ├── lms_app/       # Core application
-│   └── manage.py
-├── data/              # Fixtures or initial data
-├── requirements.txt   # Dependency list
-└── db-design.sql      # SQL schema
+├──  lms_portal/              # Main project configuration
+│   ├──  lms_app/             # Core application logic
+│   │   ├──  models.py        # Database models
+│   │   ├──  views.py         # Business logic
+│   │   ├──  serializers.py   # API serializers
+│   │   ├──  urls.py          # URL routing
+│   │   └──  templates/       # HTML templates
+│   ├──  settings.py          # Django settings
+│   ├──  urls.py              # Main URL configuration
+│   └──  wsgi.py              # WSGI configuration
+├──  static/                  # Static files (CSS, JS, Images)
+├──  media/                   # User uploaded files
+├──  data/                    # Initial data and fixtures
+│   └──  members.csv          # Member data for login credentials
+├──  screenshots/             # UI screenshots for README
+├──  requirements.txt         # Python dependencies
+├──  db-design.sql            # Database schema
+├──  manage.py                # Django management script
+└──  README.md                # This file
 ```
 
 ---
