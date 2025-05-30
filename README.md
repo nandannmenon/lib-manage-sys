@@ -1,6 +1,6 @@
 # Library Management System 
 
-A full-featured web-based Library Management System built using Django and Django REST Framework. This system allows libraries to manage books, members, transactions, and administrative operations in a streamlined and efficient manner.
+A full-featured web-based Library Management System built using Django and Django REST Framework. This system allows libraries to manage books, members and administrative operations in a streamlined and efficient manner.
 
 ---
 
